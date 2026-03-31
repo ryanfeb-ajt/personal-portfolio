@@ -1,0 +1,1866 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ryan Febriansyah — Software Test Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── DESIGN TOKENS ── */
+      :root {
+        --bg: #fafafa;
+        --bg-alt: #f3f3f1;
+        --bg-dark: #1a1a1a;
+        --text: #111111;
+        --text-muted: #666666;
+        --accent: #4f46e5;
+        --accent-h: #3730a3;
+        --tag-bg: #eef2ff;
+        --tag-text: #4f46e5;
+        --border: #e5e5e5;
+        --white: #ffffff;
+
+        --xs: 8px;
+        --sm: 16px;
+        --md: 24px;
+        --lg: 48px;
+        --xl: 80px;
+        --xxl: 120px;
+
+        --r-card: 16px;
+        --r-btn: 8px;
+        --r-tag: 999px;
+        --r-img: 12px;
+
+        --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      h1 {
+        font-size: 64px;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 48px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        font-weight: 700;
+      }
+      h3 {
+        font-size: 32px;
+        line-height: 1.3;
+        font-weight: 600;
+      }
+      h4 {
+        font-size: 24px;
+        line-height: 1.4;
+        font-weight: 600;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--sm) var(--xl);
+        background: rgba(250, 250, 250, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid transparent;
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+
+      nav.scrolled {
+        border-color: var(--border);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-logo {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      .nav-logo span {
+        color: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: var(--lg);
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent);
+      }
+
+      .nav-cta {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--white);
+        background: var(--accent);
+        padding: 8px 20px;
+        border-radius: var(--r-btn);
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        display: inline-block;
+      }
+
+      .nav-cta:hover {
+        background: var(--accent-h);
+        transform: translateY(-1px);
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: calc(var(--xxl) + 40px) var(--xl) var(--xl);
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--xs);
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        color: var(--accent);
+        background: var(--tag-bg);
+        padding: 6px 14px;
+        border-radius: var(--r-tag);
+        margin-bottom: var(--md);
+        width: fit-content;
+      }
+
+      .hero-badge::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: block;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.8);
+        }
+      }
+
+      #hero h1 {
+        margin-bottom: var(--md);
+        max-width: 820px;
+      }
+      #hero h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+
+      .hero-desc {
+        font-size: 18px;
+        color: var(--text-muted);
+        max-width: 560px;
+        line-height: 1.7;
+        margin-bottom: var(--lg);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: var(--sm);
+        flex-wrap: wrap;
+        margin-bottom: var(--xl);
+      }
+
+      .btn-primary {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--white);
+        background: var(--accent);
+        padding: 14px 28px;
+        border-radius: var(--r-btn);
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+        display: inline-block;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-h);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.28);
+      }
+
+      .btn-secondary {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text);
+        background: var(--white);
+        padding: 14px 28px;
+        border-radius: var(--r-btn);
+        text-decoration: none;
+        border: 1px solid var(--border);
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+        display: inline-block;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-card);
+      }
+
+      .hero-stats {
+        display: flex;
+        gap: var(--lg);
+        flex-wrap: wrap;
+        padding-top: var(--lg);
+        border-top: 1px solid var(--border);
+      }
+
+      .hero-stat-num {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -1px;
+        line-height: 1.1;
+      }
+
+      .hero-stat-num span {
+        color: var(--accent);
+      }
+
+      .hero-stat-label {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      /* ── TICKER ── */
+      .ticker-wrap {
+        overflow: hidden;
+        background: var(--bg-dark);
+        padding: 14px 0;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
+      }
+
+      .ticker {
+        display: flex;
+        gap: var(--lg);
+        width: max-content;
+        animation: ticker 36s linear infinite;
+      }
+
+      .ticker-item {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: #555;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: var(--lg);
+      }
+
+      .ticker-dot {
+        color: #4f46e5;
+      }
+
+      @keyframes ticker {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ── STATS BAR ── */
+      #stats-bar {
+        background: var(--bg-dark);
+        padding: var(--lg) var(--xl);
+      }
+
+      .stats-bar-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--md);
+        text-align: center;
+      }
+
+      .stats-bar-item {
+        padding: var(--md);
+      }
+
+      .stats-bar-num {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--white);
+        letter-spacing: -1px;
+        line-height: 1.1;
+      }
+
+      .stats-bar-num span {
+        color: #818cf8;
+      }
+
+      .stats-bar-label {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: #555;
+        margin-top: var(--xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* ── SECTION COMMONS ── */
+      .section-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: var(--sm);
+        display: flex;
+        align-items: center;
+        gap: var(--xs);
+      }
+
+      .section-label::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      /* ── ABOUT ── */
+      #about {
+        background: var(--bg-alt);
+        padding: var(--xxl) var(--xl);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      #about h2 {
+        margin-bottom: var(--lg);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--xl);
+        align-items: start;
+      }
+
+      .about-text p {
+        color: var(--text-muted);
+        margin-bottom: var(--sm);
+      }
+
+      .about-text p strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      .edu-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--r-card);
+        padding: var(--md);
+        box-shadow: var(--shadow-card);
+        margin-top: var(--lg);
+      }
+
+      .edu-card-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--md);
+        margin-top: var(--sm);
+      }
+
+      .edu-degree {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .edu-school {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--accent);
+        margin: 4px 0;
+      }
+
+      .edu-date {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .skills-col {
+        display: flex;
+        flex-direction: column;
+        gap: var(--md);
+      }
+
+      .skills-group-title {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: var(--xs);
+      }
+
+      .skills-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .tag {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--tag-text);
+        background: var(--tag-bg);
+        padding: 4px 12px;
+        border-radius: var(--r-tag);
+        cursor: default;
+        transition:
+          background 0.18s,
+          color 0.18s;
+      }
+
+      .tag:hover {
+        background: var(--accent);
+        color: var(--white);
+      }
+
+      /* ── EXPERIENCE ── */
+      #experience {
+        padding: var(--xxl) var(--xl);
+        background: var(--bg);
+      }
+      #experience h2 {
+        margin-bottom: var(--lg);
+      }
+
+      .timeline {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: var(--xl);
+        padding: var(--lg) var(--sm);
+        border-bottom: 1px solid var(--border);
+        border-radius: var(--r-card);
+        transition:
+          background 0.2s,
+          padding-left 0.2s;
+      }
+
+      .timeline-item:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .timeline-item:hover {
+        background: var(--bg-alt);
+      }
+
+      .timeline-date {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--text-muted);
+        padding-top: 4px;
+        line-height: 1.7;
+      }
+
+      .timeline-date .loc {
+        display: block;
+        margin-top: 6px;
+        color: #aaa;
+      }
+
+      .timeline-role {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 3px;
+      }
+
+      .timeline-company {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        color: var(--accent);
+        margin-bottom: var(--sm);
+      }
+
+      .timeline-bullets {
+        list-style: disc;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-left: var(--md);
+      }
+
+      .timeline-bullets li {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        padding-left: var(--xs);
+      }
+
+      .timeline-bullets li::marker {
+        color: var(--accent);
+      }
+
+      /* ── PROJECTS ── */
+      #projects {
+        background: var(--bg-alt);
+        padding: var(--xxl) var(--xl);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      #projects h2 {
+        margin-bottom: var(--lg);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--md);
+      }
+
+      #projects .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--md);
+      }
+
+      .project-card {
+        background: var(--white);
+        border-radius: var(--r-card);
+        padding: var(--md);
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-card-hover);
+      }
+
+      .project-type {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: var(--xs);
+      }
+
+      .project-name {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.3;
+        margin-bottom: var(--xs);
+      }
+
+      .project-desc {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        flex: 1;
+      }
+
+      .project-link {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--accent);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: var(--sm);
+        transition: color 0.2s;
+      }
+
+      .project-link:hover {
+        color: var(--accent-h);
+        text-decoration: underline;
+      }
+
+      .project-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: var(--sm);
+        padding-top: var(--sm);
+        border-top: 1px solid var(--border);
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .project-downloads {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--accent);
+      }
+
+      .project-status {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: var(--r-tag);
+      }
+
+      .status-active {
+        background: #ecfdf5;
+        color: #059669;
+      }
+      .status-beta {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+      .status-disc {
+        background: #f9fafb;
+        color: #9ca3af;
+        border: 1px solid var(--border);
+      }
+      .status-dev {
+        background: #fef9c3;
+        color: #ca8a04;
+      }
+
+      .impact-chip {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--accent);
+        background: var(--tag-bg);
+        padding: 3px 10px;
+        border-radius: var(--r-tag);
+        margin-top: 6px;
+        display: inline-block;
+      }
+
+      /* ── CONTACT ── */
+      #contact {
+        background: var(--bg);
+        padding: var(--xxl) var(--xl);
+        text-align: center;
+      }
+
+      #contact .section-label {
+        justify-content: center;
+      }
+      #contact h2 {
+        margin: var(--sm) 0 var(--md);
+      }
+
+      .contact-desc {
+        font-size: 18px;
+        color: var(--text-muted);
+        max-width: 480px;
+        margin: 0 auto var(--lg);
+        line-height: 1.7;
+      }
+
+      .contact-actions {
+        display: flex;
+        justify-content: center;
+        gap: var(--sm);
+        flex-wrap: wrap;
+        margin-bottom: var(--xl);
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: var(--lg);
+        flex-wrap: wrap;
+      }
+
+      .contact-link {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        color: var(--text-muted);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+      }
+
+      .contact-link:hover {
+        color: var(--accent);
+      }
+
+      .contact-link svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--bg-dark);
+        padding: var(--md) var(--xl);
+      }
+
+      .footer-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .footer-logo {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--white);
+      }
+
+      .footer-logo span {
+        color: #818cf8;
+      }
+
+      .footer-copy {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: #555;
+      }
+
+      /* ── REFERENCES ── */
+      #references {
+        background: var(--bg);
+        padding: var(--xxl) var(--xl);
+      }
+
+      #references h2 {
+        margin-bottom: var(--lg);
+      }
+
+      .references-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--md);
+      }
+
+      .reference-card {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--r-card);
+        padding: var(--md);
+        box-shadow: var(--shadow-card);
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+
+      .reference-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-card-hover);
+      }
+
+      .reference-text {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.7;
+        flex: 1;
+        margin-bottom: var(--md);
+      }
+
+      .reference-author {
+        border-top: 1px solid var(--border);
+        padding-top: var(--sm);
+      }
+
+      .reference-name {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .reference-role {
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--accent);
+        margin-top: 2px;
+      }
+
+      /* ── CASE STUDIES ── */
+      #case-studies {
+        background: var(--bg-alt);
+        padding: var(--xxl) var(--xl);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      #case-studies h2 {
+        margin-bottom: var(--lg);
+      }
+
+      #case-studies .projects-grid {
+        margin-top: var(--lg);
+      }
+
+      #case-studies .section-label {
+        margin-bottom: var(--sm);
+      }
+
+      #case-studies .project-card {
+        grid-column: span 3;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 960px) {
+        html,
+        body {
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        h1 {
+          font-size: 42px;
+        }
+        h2 {
+          font-size: 34px;
+        }
+        h3 {
+          font-size: 26px;
+        }
+        nav {
+          padding: var(--sm) var(--md);
+        }
+        .nav-links {
+          display: none;
+        }
+        #hero,
+        #about,
+        #experience,
+        #projects,
+        #contact,
+        #references,
+        #case-studies {
+          padding-left: var(--md);
+          padding-right: var(--md);
+        }
+        #case-studies {
+          padding-top: var(--lg);
+          padding-bottom: var(--lg);
+        }
+        #case-studies .project-card {
+          grid-column: span 1;
+        }
+        #hero {
+          padding-top: 120px;
+          min-height: auto;
+          padding-bottom: var(--xl);
+        }
+        #references {
+          padding-top: var(--lg);
+          padding-bottom: var(--lg);
+        }
+        .about-grid,
+        .edu-card-inner {
+          grid-template-columns: 1fr;
+        }
+        .about-grid {
+          gap: var(--lg);
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .project-card {
+          padding: var(--sm);
+          gap: var(--sm);
+        }
+        /* Force proper mobile layout */
+        .projects-grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .project-card {
+          width: 100%;
+          min-width: 0;
+          padding: 16px;
+        }
+
+        /* Prevent container squeezing */
+        .section-inner {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        /* Fix nav causing layout pressure */
+        nav {
+          padding-left: var(--md);
+          padding-right: var(--md);
+        }
+
+        /* Extra safety: prevent any child overflow */
+        * {
+          max-width: 100%;
+        }
+        .project-name {
+          font-size: 18px;
+        }
+        .project-desc {
+          font-size: 13px;
+        }
+        .references-grid {
+          grid-template-columns: 1fr;
+        }
+        .reference-card {
+          padding: var(--sm);
+        }
+        .reference-text {
+          font-size: 13px;
+        }
+        .timeline-item {
+          grid-template-columns: 1fr;
+          gap: var(--xs);
+          padding: var(--md) var(--xs);
+        }
+        .timeline-date {
+          padding-top: 0;
+          margin-bottom: var(--xs);
+        }
+        .timeline-bullets {
+          padding-left: var(--sm);
+        }
+        .stats-bar-inner {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-stats {
+          gap: var(--md);
+        }
+        .footer-inner {
+          flex-direction: column;
+          gap: var(--xs);
+          text-align: center;
+        }
+        footer {
+          padding: var(--md);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="#" class="nav-logo"><span>Ryan</span> Febriansyah</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#case-studies">Case Studies</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="mailto:ryanfebriansyah72@gmail.com" class="nav-cta"
+        >Get in Touch</a
+      >
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-badge">
+        Open to Collaboration &amp; Research Opportunities
+      </div>
+      <h1>Shipping quality<br />at <em>scale.</em></h1>
+      <p class="hero-desc">
+        Software Test Engineer ensuring software reliability for millions of
+        active users across Southeast Asia. I build automation platforms,
+        publish open-source Python tools, and research distributed systems
+        integrity.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#experience" class="btn-secondary">See Experience</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">4M<span>+</span></div>
+          <div class="hero-stat-label">Monthly active users served</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">129K<span>+</span></div>
+          <div class="hero-stat-label">PyPI package downloads</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">40<span>%</span></div>
+          <div class="hero-stat-label">Mobile App Release growth</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">4.6 & 4.7<span>★</span></div>
+          <div class="hero-stat-label">Play/App Store Rating Maintained</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <!-- <div class="ticker-wrap">
+      <div class="ticker">
+        <div class="ticker-item">
+          Python <span class="ticker-dot">✦</span> API Testing
+          <span class="ticker-dot">✦</span> Mobile QA
+          <span class="ticker-dot">✦</span> Maestro Automation
+          <span class="ticker-dot">✦</span> Distributed Systems
+          <span class="ticker-dot">✦</span> Docker &amp; AWS
+          <span class="ticker-dot">✦</span> GitLab CI/CD
+          <span class="ticker-dot">✦</span> Performance Testing
+          <span class="ticker-dot">✦</span> Open Source
+          <span class="ticker-dot">✦</span> Academic Research
+        </div>
+        <div class="ticker-item">
+          Python <span class="ticker-dot">✦</span> API Testing
+          <span class="ticker-dot">✦</span> Mobile QA
+          <span class="ticker-dot">✦</span> Maestro Automation
+          <span class="ticker-dot">✦</span> Distributed Systems
+          <span class="ticker-dot">✦</span> Docker &amp; AWS
+          <span class="ticker-dot">✦</span> GitLab CI/CD
+          <span class="ticker-dot">✦</span> Performance Testing
+          <span class="ticker-dot">✦</span> Open Source
+          <span class="ticker-dot">✦</span> Academic Research
+        </div>
+      </div>
+    </div> -->
+
+    <!-- STATS BAR -->
+    <!-- <section id="stats-bar">
+      <div class="stats-bar-inner">
+        <div class="stats-bar-item fade-in">
+          <div class="stats-bar-num">2M<span>+</span></div>
+          <div class="stats-bar-label">MauKerja App Downloads</div>
+        </div>
+        <div class="stats-bar-item fade-in" style="transition-delay: 0.08s">
+          <div class="stats-bar-num">98<span>%</span></div>
+          <div class="stats-bar-label">Crash-free Rate (Flutter Launch)</div>
+        </div>
+        <div class="stats-bar-item fade-in" style="transition-delay: 0.16s">
+          <div class="stats-bar-num">4.7<span>★</span></div>
+          <div class="stats-bar-label">App Store Rating Maintained</div>
+        </div>
+        <div class="stats-bar-item fade-in" style="transition-delay: 0.24s">
+          <div class="stats-bar-num">4<span>+</span></div>
+          <div class="stats-bar-label">Years at MauKerja Malaysia</div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-inner">
+        <div class="section-label fade-in">About</div>
+        <h2 class="fade-in">Who I am.</h2>
+        <div class="about-grid">
+          <div class="about-text fade-in">
+            <p>
+              I'm a <strong>Senior Software Test Engineer</strong> at MauKerja
+              Malaysia, one of Southeast Asia's largest job platforms. Since
+              2021 I've led quality assurance across API, database, LLM,
+              distributed systems, performance, and mobile automation.
+              <strong>Serving 4M+ MAUs across multiple countries</strong>.
+            </p>
+            <p>
+              I led the Appium to the Maestro migration which resulted in a
+              <strong>40% release growth in 2025</strong> and surpassed 1M+ app
+              downloads. I also temporarily led the mobile team through a
+              native-to-Flutter migration, maintaining a
+              <strong>98% crash-free rate</strong> on the first major release.
+            </p>
+            <p>
+              As a <strong>graduate student researcher</strong> at Universitas
+              Islam Indonesia, I research data integrity in REST-based
+              distributed systems using linearizability verification. On top of
+              that, my primary research interests include software testing,
+              socio-technology systems, and distributed systems.
+            </p>
+            <p>
+              I also maintain open-source Python packages with a combined
+              <strong>129,000+ PyPI downloads</strong>.
+            </p>
+
+            <div class="edu-card">
+              <div class="section-label" style="margin-bottom: var(--sm)">
+                Education
+              </div>
+              <div class="edu-card-inner">
+                <div>
+                  <div class="edu-degree">Master's in Informatics</div>
+                  <div class="edu-school">Universitas Islam Indonesia</div>
+                  <div class="edu-date">Sep 2023 — Present</div>
+                </div>
+                <div>
+                  <div class="edu-degree">Bachelor's in Informatics</div>
+                  <div class="edu-school">Universitas Islam Indonesia</div>
+                  <div class="edu-date">Sep 2015 — Dec 2020</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-col fade-in" style="transition-delay: 0.12s">
+            <div>
+              <div class="skills-group-title">Programming</div>
+              <div class="skills-tags">
+                <span class="tag">Python</span
+                ><span class="tag">Bash Scripting</span
+                ><span class="tag">SQL</span><span class="tag">JavaScript</span>
+              </div>
+            </div>
+            <div>
+              <div class="skills-group-title">Testing &amp; Automation</div>
+              <div class="skills-tags">
+                <span class="tag">Postman</span><span class="tag">Selenium</span
+                ><span class="tag">Appium</span><span class="tag">Maestro</span
+                ><span class="tag">Playwright</span
+                ><span class="tag">Locust</span><span class="tag">Firebase</span
+                ><span class="tag">GitLab CI/CD</span
+                ><span class="tag">HTTP Toolkit</span>
+              </div>
+            </div>
+            <div>
+              <div class="skills-group-title">DevOps &amp; Cloud</div>
+              <div class="skills-tags">
+                <span class="tag">Docker</span><span class="tag">AWS</span
+                ><span class="tag">Linux</span><span class="tag">Nginx</span>
+              </div>
+            </div>
+            <div>
+              <div class="skills-group-title">Data &amp; Analytics</div>
+              <div class="skills-tags">
+                <span class="tag">GA4 Analytics</span
+                ><span class="tag">Mixpanel</span
+                ><span class="tag">DBeaver</span>
+                <span class="tag">Zotero</span>
+              </div>
+            </div>
+            <div>
+              <div class="skills-group-title">Soft Skills</div>
+              <div class="skills-tags">
+                <span class="tag">Team Leadership</span
+                ><span class="tag">Technical Writing</span
+                ><span class="tag">UX Research</span
+                ><span class="tag">Agile Methodologies</span
+                ><span class="tag">Cross-functional Teams</span>
+                <span class="tag">Secondary Research</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-inner">
+        <div class="section-label fade-in">Experience</div>
+        <h2 class="fade-in">Where I've worked.</h2>
+        <div class="timeline">
+          <div class="timeline-item fade-in">
+            <div class="timeline-date">
+              May 2021 — Present<span class="loc"
+                >Kuala Lumpur, MY · Yogyakarta, ID · Hanoi, VN</span
+              >
+            </div>
+            <div>
+              <div class="timeline-role">Senior Software Test Engineer</div>
+              <div class="timeline-company">MauKerja Malaysia</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Led QA for platforms serving 4M+ MAUs: covering API, database,
+                  LLM, distributed systems, automation, exploratory &amp;
+                  performance testing across mobile and desktop.
+                </li>
+                <li>
+                  Drove Appium to Maestro migration, resulting in 40% release
+                  growth in 2025, surpassing 1M+ downloads on both Android and
+                  iOS.
+                </li>
+                <li>
+                  Contributed to a 30% increase in 2024 releases, maintaining a
+                  4.7-star rating and 950K+ active users through widget
+                  integration and automation testing.
+                </li>
+                <li>
+                  Supported UX research via user feedback collection and
+                  interview analysis. Contributing to a 3.4% increase in 3-month
+                  retention; weekly retention stable at 74.7%.
+                </li>
+                <li>
+                  Temporarily led the mobile team through a native to Flutter
+                  migration across 7 months, maintaining 98% crash-free rate on
+                  first major release.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-date">
+              Aug 2024 — Jun 2025<span class="loc">Yogyakarta, ID</span>
+            </div>
+            <div>
+              <div class="timeline-role">Graduate Student Researcher</div>
+              <div class="timeline-company">Universitas Islam Indonesia</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Researched data integrity in REST-based distributed systems
+                  using linearizability verification — awarded a Ministry of
+                  Education, Culture, Science and Technology research grant.
+                </li>
+                <li>
+                  Built a distributed automated testing framework achieving
+                  54.5% bug detection rate. Research submitted for peer-reviewed
+                  publication, currently under review.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-date">
+              Dec 2020 — Apr 2021<span class="loc">Bandung, ID (Remote)</span>
+            </div>
+            <div>
+              <div class="timeline-role">
+                Software Test Engineer (Part-time)
+              </div>
+              <div class="timeline-company">
+                Moni — Catatan Keuangan Otomatis
+              </div>
+              <ul class="timeline-bullets">
+                <li>
+                  Transitioned from SWE to QA role. Performed acceptance and
+                  exploratory testing for a successful Google Play Store launch
+                  with 50K+ downloads.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-date">
+              Aug 2020 — Apr 2021<span class="loc">Yogyakarta, ID</span>
+            </div>
+            <div>
+              <div class="timeline-role">Software Engineer</div>
+              <div class="timeline-company">Qatros Teknologi Nusantara</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Delivered dashboard management systems (analytics, charts,
+                  filtering) for Zurich Indonesia and Kemendagri within 3
+                  months.
+                </li>
+                <li>
+                  Resolved 60%+ of LingkarKerja backlog issues; improved code
+                  coverage from 63% to 94.1%; reduced Docker image from 1.5 GB
+                  to 524 MB.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item fade-in">
+            <div class="timeline-date">
+              Sep 2018 — Jan 2019<span class="loc">Yogyakarta, ID</span>
+            </div>
+            <div>
+              <div class="timeline-role">Software Engineer (Internship)</div>
+              <div class="timeline-company">BPPTKG — Kementerian ESDM</div>
+              <ul class="timeline-bullets">
+                <li>
+                  Built an internal Python library for monitoring Mount Merapi,
+                  integrating weather, seismic, and temperature data into a
+                  meteorological analysis dashboard.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-inner">
+        <div class="section-label fade-in">Projects &amp; Products</div>
+        <h2 class="fade-in">Things I've built.</h2>
+        <div class="projects-grid">
+          <div class="project-card fade-in">
+            <div class="project-type">Python Package · Open Source</div>
+            <div class="project-name">lruheap</div>
+            <p class="project-desc">
+              Python decorators for in-memory LRU caching. It was born from a
+              failed technical test and turned into a thorough dive into caching
+              fundamentals and PyPI publishing workflows.
+            </p>
+            <a
+              href="https://pypi.org/project/lruheap/"
+              target="_blank"
+              class="project-link"
+              >View on PyPI ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">↓ 48,000+ downloads</span>
+              <span class="project-status status-active">Stable</span>
+            </div>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.08s">
+            <div class="project-type">Python Package · Open Source</div>
+            <div class="project-name">pure-datastructures</div>
+            <p class="project-desc">
+              A collection of data structures written in native Python with zero
+              external dependencies. My first PyPI package (2020), built
+              entirely for learning fundamentals from scratch.
+            </p>
+            <a
+              href="https://pypi.org/project/pure-datastructures/"
+              target="_blank"
+              class="project-link"
+              >View on PyPI ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">↓ 36,000+ downloads</span>
+              <span class="project-status status-disc">Discontinued</span>
+            </div>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.16s">
+            <div class="project-type">Python Package · Open Source</div>
+            <div class="project-name">maritest</div>
+            <p class="project-desc">
+              API testing framework that simplifies assertion writing during API
+              testing. Became MauKerja Malaysia's standard QA framework across
+              two teams from 2021–2023.
+            </p>
+            <a
+              href="https://pypi.org/project/maritest/"
+              target="_blank"
+              class="project-link"
+              >View on PyPI ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">↓ 23,000+ downloads</span>
+              <span class="project-status status-disc">Discontinued</span>
+            </div>
+            <span class="impact-chip">−3 hrs/day QA workload</span>
+          </div>
+
+          <div class="project-card fade-in">
+            <div class="project-type">Python Package · Open Source</div>
+            <div class="project-name">hijri-calendar</div>
+            <p class="project-desc">
+              Converts Gregorian dates to the Islamic Hijriah calendar in
+              Python. Ported from hijri.js and rewritten natively in Python.
+              recently revived after 5 years of inactivity.
+            </p>
+            <a
+              href="https://pypi.org/project/hijri-calendar/"
+              target="_blank"
+              class="project-link"
+              >View on PyPI ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">↓ 23,000+ downloads</span>
+              <span class="project-status status-beta">Beta</span>
+            </div>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.08s">
+            <div class="project-type">Python Package · Open Source</div>
+            <div class="project-name">maestro-reporter</div>
+            <p class="project-desc">
+              Toolchain to run Maestro UI tests, parse reports, and push results
+              to Lark or Slack. Started as an internal MauKerja tool, now become
+              the de-facto mobile QA runner across teams.
+            </p>
+            <a
+              href="https://pypi.org/project/maestro-reporter/"
+              target="_blank"
+              class="project-link"
+              >View on PyPI ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">↓ 2,000+ downloads</span>
+              <span class="project-status status-dev">In Development</span>
+            </div>
+            <span class="impact-chip">Regression: 1–2 days → 35 min</span>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.16s">
+            <div class="project-type">Internal Tool · MauKerja Malaysia</div>
+            <div class="project-name">MKRB Testing Framework</div>
+            <p class="project-desc">
+              Custom API automation framework with parallel testing, load
+              testing, Lark/Slack reporting, and full GitLab CI + Docker
+              integration. Covers 150+ internal services alongside 800+ test
+              cases. Stable at v3 since 2023.
+            </p>
+            <div class="project-meta">
+              <span class="project-downloads">In-house use</span>
+              <span class="project-status status-active">Stable · v3</span>
+            </div>
+          </div>
+
+          <div class="project-card fade-in">
+            <div class="project-type">Internal Tool · Vibe-coded 2025</div>
+            <div class="project-name">MKRB QA Analytics</div>
+            <p class="project-desc">
+              Flask/HTML/JS dashboard for QA teams to query and validate event
+              tracking data, replacing DBeaver for daily QA data validation
+              tasks. Approximately 70% AI-assisted development.
+            </p>
+            <div class="project-meta">
+              <span class="project-downloads">Flask · MySQL · AWS</span>
+              <span class="project-status status-beta">Beta · Live</span>
+            </div>
+            <span class="impact-chip">Data validation: 1 hr → ~10 min</span>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.08s">
+            <div class="project-type">Internal Tool · MauKerja Malaysia</div>
+            <div class="project-name">YouTrack Ticket Collector</div>
+            <p class="project-desc">
+              Fetches weekly YouTrack tickets, summarizes them, and exports
+              copy-paste-ready Markdown for weekly company reports. Built
+              entirely by AI with human oversight.
+            </p>
+            <div class="project-meta">
+              <span class="project-downloads">Used across teams</span>
+              <span class="project-status status-active">Stable</span>
+            </div>
+            <span class="impact-chip">Report curation: 15 min → 5 sec</span>
+          </div>
+
+          <div class="project-card fade-in" style="transition-delay: 0.16s">
+            <div class="project-type">Mobile App · Main Contributor</div>
+            <div class="project-name">MauKerja Malaysia</div>
+            <p class="project-desc">
+              One of Southeast Asia's largest job platforms. Involved since 2021
+              through multiple major milestoness: 2M+ downloads, 100K+ daily
+              active users across 4 countries.
+            </p>
+            <a
+              href="https://apps.apple.com/my/app/maukerja-malaysia-job-search/id1383614538"
+              target="_blank"
+              class="project-link"
+              >View on App Store ↗</a
+            >
+            <div class="project-meta">
+              <span class="project-downloads">2M+ downloads</span>
+              <span class="project-status status-active">Live</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDIES -->
+    <section id="case-studies">
+      <div class="section-inner">
+        <div class="section-label fade-in">Selected Case Study</div>
+        <h2 class="fade-in">How I solve complex problems.</h2>
+
+        <div class="projects-grid">
+          <!-- CASE STUDY 1 -->
+          <div class="project-card fade-in">
+            <div class="project-type">Case Study · AI / QA Systems</div>
+            <div class="project-name">
+              Testing LLM Systems: Hybrid QA Framework
+            </div>
+
+            <p class="project-desc">
+              Developed a QA evaluation framework for LLM-generated summaries
+              <strong>by 50,000+ users</strong>, processing an average of
+              <strong>3.5M+ output tokens</strong> per month in a production
+              environment. Mostly used for generating job description summaries
+              and about me sections for jobseekers on MauKerja Malaysia
+              platforms.
+            </p>
+
+            <div class="project-meta">
+              <span class="project-downloads"
+                ><a
+                  href="https://github.com/sodrooome/hybrid-llm-test"
+                  target="_blank"
+                  class="project-link"
+                  >View on Github</a
+                ></span
+              >
+              <span class="project-status status-active"
+                >Research / Applied QA</span
+              >
+            </div>
+
+            <!-- <div class="impact-chip">LLM Regression Testing Enabled</div> -->
+
+            <!-- EXPANDED CONTENT -->
+            <div
+              style="
+                margin-top: 16px;
+                font-size: 14px;
+                color: var(--text-muted);
+                line-height: 1.7;
+              "
+            >
+              <strong style="color: var(--text)">Problem</strong><br />
+              LLM outputs are non-deterministic, making them difficult to
+              validate. Generated summaries may contain hallucinations, bias, or
+              missing key information and it's directly affecting job matching
+              quality.
+              <br /><br />
+
+              <strong style="color: var(--text)">Approach</strong><br />
+              Built a hybrid evaluation framework combining:
+              <ul style="padding-left: 18px; margin-top: 6px">
+                <li>
+                  Rule-based validation (length, completeness, formatting)
+                </li>
+                <li>
+                  Semantic similarity scoring using BERTScore as a
+                  <em>weak signal</em>, used to detect major deviations rather
+                  than enforce strict correctness
+                </li>
+                <li>Detection of hallucinated or biased terms</li>
+                <li>Human-in-the-loop (HITL) validation for edge cases</li>
+              </ul>
+              <br />
+
+              <strong style="color: var(--text)">System Design</strong><br />
+              LLM outputs are stored as JSON and processed through an evaluation
+              pipeline for regression detection and quality tracking across
+              model iterations.
+              <br /><br />
+
+              <strong style="color: var(--text)">Impact</strong><br />
+              Introduced a repeatable QA process for generative AI systems by
+              enabling regression testing and reducing reliance on manual
+              review.
+              <br /><br />
+
+              <strong style="color: var(--text)">Key Insight</strong><br />
+              LLMs require multi-dimensional evaluation, not exact assertions.
+              But quality scoring across constraints, semantics, and human
+              judgment.
+              <br /><br />
+
+              <strong style="color: var(--text)">Observation</strong><br />
+              In reality, semantic similarity scores
+              <strong>averaged ~0.55</strong> when comparing generated summaries
+              to job descriptions. This somewhat considered as a key limitation:
+              high-quality summaries it's heavily influenced by structure and
+              phrasing. As a result, semantic scoring was treated as a
+              supporting signal, not a source of truth. Thus, reinforcing the
+              need for hybrid evaluation and QA manual review.<br /><br />
+
+              <strong style="color: var(--text)">Limitations</strong><br />
+              Golden dataset maintenance, BERTScore blind spots, and HITL
+              scalability remain key challenges for long-term adoption.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFERENCES -->
+    <section id="references">
+      <div class="section-inner">
+        <div class="section-label fade-in">References</div>
+        <h2 class="fade-in">What others say.</h2>
+
+        <div class="references-grid">
+          <div class="reference-card fade-in">
+            <p class="reference-text">
+              I have had the privilege of working alongside Ryan as a mobile
+              developer at Maukerja, and I enthusiastically endorse them for any
+              QA role. Ryan consistently exhibits exceptional attention to
+              detail, a dedication to ensuring top-quality mobile applications,
+              and a proactive approach to keeping our testing strategies
+              up-to-date. Their open communication, teamwork, and positive
+              attitude have made them an invaluable asset to our team and the
+              organization as a whole. Ryan is a top-notch QA professional, and
+              I am confident they will excel in any project or role they
+              undertake.
+            </p>
+            <div class="reference-author">
+              <div class="reference-name">Mohamad Pranata</div>
+              <div class="reference-role">
+                Research Assistant · Shizuoka University
+              </div>
+            </div>
+          </div>
+
+          <div class="reference-card fade-in" style="transition-delay: 0.08s">
+            <p class="reference-text">
+              Thank you for always taking the time and effort to help resolve
+              jobseeker issues in Apps from your side. Your continuous support,
+              quick response, and willingness to assist really make a big
+              difference in ensuring everything runs smoothly. It truly helps
+              improve the overall experience for jobseekers, and we really
+              appreciate your dedication and commitment. Keep up the great work!
+            </p>
+            <div class="reference-author">
+              <div class="reference-name">Mohamad Faizzudin</div>
+              <div class="reference-role">
+                Operations Team Lead · Maukerja Malaysia
+              </div>
+            </div>
+          </div>
+
+          <div class="reference-card fade-in" style="transition-delay: 0.16s">
+            <p class="reference-text">
+              I’ve always been impressed by how you never compromise on quality
+              when it comes to maintaining the Mobile App baseline. Your deep
+              product knowledge has been a huge help, especially in catching
+              things that others might’ve missed. Thank you for always being the
+              first to acknowledge when issues are app-related, your
+              understanding helps us find and solve root causes faster.
+            </p>
+            <div class="reference-author">
+              <div class="reference-name">Chan Kah Kean</div>
+              <div class="reference-role">
+                Senior Product Manager · Ant International
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-inner">
+        <div class="section-label">Contact</div>
+        <h2>Let's work together.</h2>
+        <p class="contact-desc">
+          Whether it's a QA challenge, an open-source idea, a research
+          collaboration, or just a chat — my inbox is open.
+        </p>
+        <div class="contact-actions">
+          <a href="mailto:ryanfebriansyah72@gmail.com" class="btn-primary"
+            >Send an Email</a
+          >
+          <a href="https://ryanfeb.xyz" target="_blank" class="btn-secondary"
+            >Visit Website ↗</a
+          >
+        </div>
+        <div class="contact-links">
+          <a href="mailto:ryanfebriansyah72@gmail.com" class="contact-link">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            ryanfebriansyah72@gmail.com
+          </a>
+          <a href="https://ryanfeb.xyz" target="_blank" class="contact-link">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            ryanfeb.xyz
+          </a>
+          <!-- <a href="tel:+6281325978620" class="contact-link">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+            +62 813 2597 8620
+          </a> -->
+          <a class="contact-link" style="cursor: default">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Yogyakarta, Indonesia
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-logo"><span>Ryan</span> Febriansyah</div>
+        <div class="footer-copy">
+          © 2026 · Made with care by Ryan Febriansyah. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Nav scroll shadow
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 10);
+      });
+
+      // Active nav link highlight
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 160)
+            current = s.getAttribute("id");
+        });
+        navLinks.forEach((a) => {
+          a.classList.toggle(
+            "active",
+            a.getAttribute("href") === "#" + current,
+          );
+        });
+      });
+
+      // Scroll fade-in
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document
+        .querySelectorAll(".fade-in")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
